@@ -9,12 +9,12 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 
-@Component("startCommand")
+@Component("helpCommand")
 @Order(100)
-public class StartCommand extends ServiceCommand {
+public class HelpCommand extends ServiceCommand {
 
-  public StartCommand(@Value("start") String identifier,
-      @Value("Старт") String description) {
+  public HelpCommand(@Value("help") String identifier,
+      @Value("Помощь") String description) {
     super(identifier, description);
   }
 
@@ -24,7 +24,8 @@ public class StartCommand extends ServiceCommand {
     String userName = Utils.getUserName(user);
 
     sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-        "Этот бот умеет хранить информацию!"
-            + " Если Вам хотите узнать подробнее, нажмите /help");
+        "Этот бот умеет хранить и выдавать информацию по тэгам.\n"
+            + "Для того, чтобы начать его использовать отправьте ему сообщение,"
+            + " начинающееся с хэштэга #");
   }
 }
