@@ -14,7 +14,7 @@ import ru.muryginds.infoStorage.bot.utils.Utils;
 public class StartCommand extends ServiceCommand {
 
   public StartCommand(@Value("start") String identifier,
-      @Value("Старт") String description) {
+      @Value("Start") String description) {
     super(identifier, description);
   }
 
@@ -24,7 +24,7 @@ public class StartCommand extends ServiceCommand {
     String userName = Utils.getUserName(user);
 
     sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-        "Этот бот умеет хранить информацию!"
-            + " Если Вам хотите узнать подробнее, нажмите /help");
+        "This bot can store information!"
+            + " If you want to know more, send /help");
   }
 }
