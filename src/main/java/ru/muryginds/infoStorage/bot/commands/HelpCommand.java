@@ -14,7 +14,7 @@ import ru.muryginds.infoStorage.bot.utils.Utils;
 public class HelpCommand extends ServiceCommand {
 
   public HelpCommand(@Value("help") String identifier,
-      @Value("Помощь") String description) {
+      @Value("Help") String description) {
     super(identifier, description);
   }
 
@@ -23,9 +23,10 @@ public class HelpCommand extends ServiceCommand {
 
     String userName = Utils.getUserName(user);
 
-    sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-        "Этот бот умеет хранить и выдавать информацию по тэгам.\n"
-            + "Для того, чтобы начать его использовать отправьте ему сообщение,"
-            + " начинающееся с хэштэга #");
+    sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(),
+        userName,
+        "This bot can store information using tags. "
+            + "To start using it, send a message starting"
+            + " with $ yourTagName f.e: ($java $streamApi)");
   }
 }
