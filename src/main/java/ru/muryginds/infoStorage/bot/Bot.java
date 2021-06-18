@@ -1,5 +1,6 @@
 package ru.muryginds.infoStorage.bot;
 
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.muryginds.infoStorage.bot.commands.NonCommand;
 import ru.muryginds.infoStorage.bot.handlers.UpdateHandler;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
@@ -47,12 +47,15 @@ public class Bot extends TelegramLongPollingCommandBot {
 
   @Override
   public void processNonCommandUpdate(Update update) {
-    SendMessage sendMessage = updateHandler.handleUpdate(update);
-    try {
-      execute(sendMessage);
-    } catch (TelegramApiException e) {
-      String userName = Utils.getUserName(update.getMessage().getFrom());
-      //логируем сбой Telegram Bot API, используя userName
-    }
+    Optional<SendMessage> optionalSendMessage
+        = updateHandler.handleUpdate(update);
+   if (optionalSendMessage.isPresent()) {
+     try {
+       execute(optionalSendMessage.get());
+     } catch (TelegramApiException e) {
+       String userName = Utils.getUserName(update.getMessage().getFrom());
+       //логируем сбой Telegram Bot API, используя userName
+     }
+   }
   }
 }

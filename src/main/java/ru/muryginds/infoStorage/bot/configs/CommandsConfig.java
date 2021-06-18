@@ -1,4 +1,4 @@
-package ru.muryginds.infoStorage.bot.commands;
+package ru.muryginds.infoStorage.bot.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
