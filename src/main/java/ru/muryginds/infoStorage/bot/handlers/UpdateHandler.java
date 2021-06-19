@@ -1,11 +1,12 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component("updateHandler")
@@ -20,15 +21,15 @@ public class UpdateHandler {
   @Qualifier("messageUpdateHandler")
   MessageUpdateHandler messageUpdateHandler;
 
-  public Optional<SendMessage> handleUpdate(Update update) {
+  public List<BotApiMethod<?>> handleUpdate(Update update) {
 
-    Optional<SendMessage> result = Optional.empty();
+    List<BotApiMethod<?>> result = new ArrayList<>();
 
     if(update.hasCallbackQuery()) {
-      result = callbackQueryUpdateHandler.formAnswer(update);
+      result = callbackQueryUpdateHandler.formAnswerList(update);
     } else if(update.hasMessage()) {
       if (update.getMessage().hasText()) {
-         result = messageUpdateHandler.formAnswer(update);
+         result = messageUpdateHandler.formAnswerList(update);
       }
     }
     return result;
