@@ -1,6 +1,6 @@
 package ru.muryginds.infoStorage.bot;
 
-import java.util.Optional;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.muryginds.infoStorage.bot.handlers.UpdateHandler;
@@ -47,15 +47,16 @@ public class Bot extends TelegramLongPollingCommandBot {
 
   @Override
   public void processNonCommandUpdate(Update update) {
-    Optional<SendMessage> optionalSendMessage
+    List<BotApiMethod<?>> botApiMethodList
         = updateHandler.handleUpdate(update);
-   if (optionalSendMessage.isPresent()) {
      try {
-       execute(optionalSendMessage.get());
+       for (BotApiMethod<?> botApiMethod: botApiMethodList) {
+         execute(botApiMethod);
+       }
      } catch (TelegramApiException e) {
        String userName = Utils.getUserName(update.getMessage().getFrom());
        //логируем сбой Telegram Bot API, используя userName
      }
-   }
   }
+
 }

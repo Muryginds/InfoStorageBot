@@ -1,14 +1,15 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.Optional;
+import java.util.List;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 interface AbstractTypeUpdateHandler {
 
-  Optional<SendMessage> formAnswer(Update update);
+  List<BotApiMethod<?>> formAnswerList(Update update);
 
-  default SendMessage setAnswer(Long chatId, String text) {
+  default BotApiMethod<?> setAnswer(Long chatId, String text) {
     SendMessage answer = new SendMessage();
     answer.setText(text);
     answer.setChatId(chatId.toString());

@@ -1,4 +1,4 @@
-package ru.muryginds.infoStorage.bot.keyBoard;
+package ru.muryginds.infoStorage.bot.handlers.keyboards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +8,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 public class SendInlineKeyBoard {
 
-  public static SendMessage sendInlineKeyBoardMessage(long chatId, int messageId) {
+  public static SendMessage sendInlineKeyboardMessage(long chatId, int messageId) {
     InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
     InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
     InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
     InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
     inlineKeyboardButton1.setText("Yes");
-    inlineKeyboardButton1.setCallbackData("Remembering this message");
+    inlineKeyboardButton1.setCallbackData("AddingYes");
     inlineKeyboardButton2.setText("No");
-    inlineKeyboardButton2.setCallbackData("Forgetting about this message");
+    inlineKeyboardButton2.setCallbackData("AddingNo");
 //    inlineKeyboardButton3.setText("Fi4a");
 //    inlineKeyboardButton3.setCallbackData("CallFi4a");
     List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
