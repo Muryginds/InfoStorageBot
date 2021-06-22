@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-@Component("trashMessagesControl")
-public class TrashMessagesControl {
+@Component("tempMessagesControl")
+public class TempMessagesControl {
 
   private final Map<Long, List<Integer>> messagesToBeDeleted =
       new HashMap<>();
@@ -25,7 +25,7 @@ public class TrashMessagesControl {
 
   }
 
-  public List<Integer> getAllByChatId(long id) {
-    return messagesToBeDeleted.remove(id);
+  public void removeAllByChatId(long id) {
+    messagesToBeDeleted.remove(id);
   }
 }

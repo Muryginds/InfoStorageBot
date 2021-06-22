@@ -12,7 +12,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.keyboards.AbstractKeyboardMessage;
 import ru.muryginds.infoStorage.bot.models.User;
-import ru.muryginds.infoStorage.bot.repository.JpaUserRepository;
+import ru.muryginds.infoStorage.bot.repository.UserRepository;
+import ru.muryginds.infoStorage.bot.service.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 @Component("addTagsHandler")
@@ -26,11 +27,15 @@ public class AddTagsHandler implements AbstractHandler {
   @Qualifier("addingTagsKeyboardMessage")
   private AbstractKeyboardMessage addingTagsKeyboardMessage;
 
-  private final JpaUserRepository userRepository;
+  @Autowired
+  @Qualifier("tempMessagesControl")
+  TempMessagesControl tempMessagesControl;
+
+  private final UserRepository userRepository;
 
   @Autowired
-  public AddTagsHandler (JpaUserRepository jpaUserRepository) {
-    this.userRepository = jpaUserRepository;
+  public AddTagsHandler (UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
 
   @Override
@@ -62,6 +67,7 @@ public class AddTagsHandler implements AbstractHandler {
               ,false, callbackQuery));
           user.setBotState(BotState.WORKING);
           userRepository.save(user);
+          tempMessagesControl.removeAllByChatId(callbackQuery.getMessage().getChatId());
           break;
       }
     }

@@ -8,6 +8,6 @@ import ru.muryginds.infoStorage.bot.models.User;
 
 @Repository
 @Transactional(readOnly = true)
-public interface JpaUserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> getByChatId(String chatId);
 }

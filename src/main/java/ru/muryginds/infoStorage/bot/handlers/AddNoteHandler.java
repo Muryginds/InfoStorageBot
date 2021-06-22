@@ -10,9 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.models.User;
-import ru.muryginds.infoStorage.bot.repository.JpaUserRepository;
+import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.service.NoteAdditionControl;
-import ru.muryginds.infoStorage.bot.service.TrashMessagesControl;
+import ru.muryginds.infoStorage.bot.service.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 @Component("addNoteHandler")
@@ -21,19 +21,19 @@ public class AddNoteHandler implements AbstractHandler {
   public static final String ADDING_YES = "AddingNoteYes";
   public static final String ADDING_NO = "AddingNoteNo";
 
-  private final JpaUserRepository userRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  public AddNoteHandler (JpaUserRepository jpaUserRepository) {
-    this.userRepository = jpaUserRepository;
+  public AddNoteHandler (UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
   @Autowired
   @Qualifier("noteAdditionControl")
   NoteAdditionControl noteAdditionControl;
 
   @Autowired
-  @Qualifier("trashMessagesControl")
-  TrashMessagesControl trashMessagesControl;
+  @Qualifier("tempMessagesControl")
+  TempMessagesControl tempMessagesControl;
 
   @Override
   public List<BotApiMethod<?>> getAnswerList(User user, BotApiObject botApiObject) {
@@ -47,7 +47,7 @@ public class AddNoteHandler implements AbstractHandler {
             + " to memory",false, callbackQuery));
         answer.add(Utils.prepareSendMessage(callbackQuery.getMessage().getChatId(),
             "please set tags for this note"));
-        trashMessagesControl.add(callbackQuery.getMessage());
+        tempMessagesControl.add(callbackQuery.getMessage());
         noteAdditionControl.add(callbackQuery.getMessage().getReplyToMessage());
         user.setBotState(BotState.ADDING_TAGS);
         userRepository.save(user);
@@ -55,7 +55,7 @@ public class AddNoteHandler implements AbstractHandler {
       case ADDING_NO:
         answer.add(Utils.sendAnswerCallbackQuery("Addition is cancelled"
             ,false, callbackQuery));
-        trashMessagesControl.add(callbackQuery.getMessage());
+        tempMessagesControl.add(callbackQuery.getMessage());
         user.setBotState(BotState.WORKING);
         userRepository.save(user);
         break;

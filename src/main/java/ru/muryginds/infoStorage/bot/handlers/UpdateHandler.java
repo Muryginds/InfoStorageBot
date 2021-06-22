@@ -11,20 +11,25 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.models.User;
-import ru.muryginds.infoStorage.bot.repository.JpaUserRepository;
+import ru.muryginds.infoStorage.bot.repository.TagRepository;
+import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 @Component("updateHandler")
 @Order(150)
 public class UpdateHandler {
 
-  private final JpaUserRepository userRepository;
+  private final UserRepository userRepository;
+  private final TagRepository tagRepository;
   private final List<AbstractHandler> handlers;
 
   @Autowired
-  public UpdateHandler(List<AbstractHandler> handlers, JpaUserRepository userRepository) {
+  public UpdateHandler(List<AbstractHandler> handlers,
+      UserRepository userRepository,
+      TagRepository tagRepository) {
     this.handlers = handlers;
     this.userRepository = userRepository;
+    this.tagRepository = tagRepository;
   }
 
   public List<BotApiMethod<?>> handleUpdate(Update update) {
@@ -45,6 +50,7 @@ public class UpdateHandler {
       if (update.getMessage().hasText()) {
         user = userRepository.getByChatId(String.valueOf(update.getMessage().getChatId()))
             .orElseGet(() -> userRepository.save(new User(update.getMessage())));
+        //List<Tag> tags = jpaTagRepository.findAllByUser(user);
         handler = getHandlerByState(user.getBotState());
         if (handler.isPresent()) {
           result = handler.get().getAnswerList(user, update.getMessage());

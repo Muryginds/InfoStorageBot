@@ -11,10 +11,6 @@ public class NoteAdditionControl {
   private final Map<Long, Integer> incompleteNotesList =
       new HashMap<>();
 
-  public boolean checkAwaitingTags(long id) {
-
-    return incompleteNotesList.containsKey(id);
-  }
 
   public void add(Message message) {
 
