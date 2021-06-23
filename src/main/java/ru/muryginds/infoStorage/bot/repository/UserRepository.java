@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.muryginds.infoStorage.bot.models.User;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional()
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> getByChatId(String chatId);
 }

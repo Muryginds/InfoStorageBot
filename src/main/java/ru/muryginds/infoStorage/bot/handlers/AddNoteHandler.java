@@ -11,8 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.models.User;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
-import ru.muryginds.infoStorage.bot.service.NoteAdditionControl;
-import ru.muryginds.infoStorage.bot.service.TempMessagesControl;
+import ru.muryginds.infoStorage.bot.utils.NoteAdditionControl;
+import ru.muryginds.infoStorage.bot.utils.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 @Component("addNoteHandler")
@@ -27,6 +27,7 @@ public class AddNoteHandler implements AbstractHandler {
   public AddNoteHandler (UserRepository userRepository) {
     this.userRepository = userRepository;
   }
+
   @Autowired
   @Qualifier("noteAdditionControl")
   NoteAdditionControl noteAdditionControl;

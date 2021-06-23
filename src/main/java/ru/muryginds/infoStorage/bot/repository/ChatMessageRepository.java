@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.muryginds.infoStorage.bot.models.ChatMessage;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional()
 public interface ChatMessageRepository
     extends JpaRepository<ChatMessage, Integer> {
 }

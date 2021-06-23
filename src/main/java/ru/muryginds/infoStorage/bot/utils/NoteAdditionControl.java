@@ -1,4 +1,4 @@
-package ru.muryginds.infoStorage.bot.service;
+package ru.muryginds.infoStorage.bot.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,21 +8,19 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component("noteAdditionControl")
 public class NoteAdditionControl {
 
-  private final Map<Long, Integer> incompleteNotesList =
+  private final Map<Long, Integer> tempNotesList =
       new HashMap<>();
 
 
   public void add(Message message) {
-
-    incompleteNotesList.put(message.getChatId(), message.getMessageId());
-
+    tempNotesList.put(message.getChatId(), message.getMessageId());
   }
 
   public int getMessageIdByChatId(long id) {
-    return incompleteNotesList.get(id);
+    return tempNotesList.get(id);
   }
 
   public void remove(long id) {
-    incompleteNotesList.remove(id);
+    tempNotesList.remove(id);
   }
 }

@@ -16,4 +16,6 @@ public interface AbstractHandler {
   default List<String> getOperatedCallBackQuery() {
     return new ArrayList<>();
   }
+
+
 }

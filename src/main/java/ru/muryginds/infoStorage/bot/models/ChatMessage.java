@@ -19,14 +19,8 @@ import lombok.Setter;
 public class ChatMessage extends AbstractEntity {
 
   @Column(name = "message_id")
-  private String messageId;
+  private int messageId;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.MERGE)
   private User user;
-
-/*  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(name = "messages_with_tags",
-      joinColumns = {@JoinColumn(name = "message_id")},
-      inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-  private List<Tag> tagList;*/
 }

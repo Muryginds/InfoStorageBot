@@ -1,12 +1,9 @@
 package ru.muryginds.infoStorage.bot.models;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,8 +34,8 @@ public class User extends AbstractEntity {
 /*  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<ChatMessage> chatMessages;*/
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private List<Tag> tagList;
+/*  @OneToMany(mappedBy = "user")
+  private List<Tag> tagList;*/
 
   public User(Message message) {
     this.chatId = String.valueOf(message.getChatId());

@@ -21,12 +21,6 @@ public class Tag extends AbstractEntity {
   @Column(name = "tag_name")
   private String name;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.MERGE)
   private User user;
-
-/*  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(name = "messages_with_tags",
-      joinColumns = {@JoinColumn(name = "tag_id")},
-      inverseJoinColumns = {@JoinColumn(name = "message_id")})
-  private List<ChatMessage> chatMessages;*/
 }

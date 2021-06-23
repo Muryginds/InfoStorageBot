@@ -33,7 +33,8 @@ public class MessageHandler implements AbstractHandler {
     List<BotApiMethod<?>> answer = new ArrayList<>();
     Message message = ((Message) botApiObject);
     long chatId = message.getChatId();
-    answer.add(addingNoteKeyboardMessage.sendKeyboardMessage(chatId, message.getMessageId()));
+    answer.add(addingNoteKeyboardMessage.sendKeyboardMessage(chatId,
+        message.getMessageId(), "Would you like to store this message?"));
     user.setBotState(BotState.ADDING_TAGS);
     userRepository.save(user);
 

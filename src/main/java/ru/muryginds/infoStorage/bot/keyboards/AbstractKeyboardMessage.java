@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 public interface AbstractKeyboardMessage {
 
-  SendMessage sendKeyboardMessage(long chatId, int messageId);
+  SendMessage sendKeyboardMessage(long chatId, int messageId, String text);
 
   ReplyKeyboard formKeyboard();
 

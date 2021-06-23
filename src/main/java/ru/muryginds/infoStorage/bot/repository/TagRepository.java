@@ -9,7 +9,7 @@ import ru.muryginds.infoStorage.bot.models.Tag;
 import ru.muryginds.infoStorage.bot.models.User;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional()
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     Optional<Tag> getByNameAndUser(String name, User user);
     List<Tag> findAllByUser(User user);
