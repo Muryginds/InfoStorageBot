@@ -11,20 +11,23 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.models.User;
-import ru.muryginds.infoStorage.bot.repository.JpaUserRepository;
+import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 @Component("updateHandler")
 @Order(150)
 public class UpdateHandler {
 
-  private final JpaUserRepository userRepository;
+  private final UserRepository userRepository;
+
   private final List<AbstractHandler> handlers;
 
   @Autowired
-  public UpdateHandler(List<AbstractHandler> handlers, JpaUserRepository userRepository) {
+  public UpdateHandler(List<AbstractHandler> handlers,
+      UserRepository userRepository) {
     this.handlers = handlers;
     this.userRepository = userRepository;
+
   }
 
   public List<BotApiMethod<?>> handleUpdate(Update update) {

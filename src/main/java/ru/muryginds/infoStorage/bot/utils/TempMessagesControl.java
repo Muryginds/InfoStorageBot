@@ -1,14 +1,15 @@
-package ru.muryginds.infoStorage.bot.service;
+package ru.muryginds.infoStorage.bot.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-@Component("trashMessagesControl")
-public class TrashMessagesControl {
+@Component("tempMessagesControl")
+public class TempMessagesControl {
 
   private final Map<Long, List<Integer>> messagesToBeDeleted =
       new HashMap<>();
@@ -20,12 +21,15 @@ public class TrashMessagesControl {
       messages = new ArrayList<>();
     }
     messages.add(message.getMessageId());
-
     messagesToBeDeleted.put(chatId, messages);
-
   }
 
-  public List<Integer> getAllByChatId(long id) {
-    return messagesToBeDeleted.remove(id);
+  public List<BotApiMethod<?>> removeAllByChatId(long id) {
+    List<Integer> list = messagesToBeDeleted.remove(id);
+    List<BotApiMethod<?>> answer = new ArrayList<>();
+    for (int item : list) {
+      answer.add(Utils.prepareDeleteMessage(id, item));
+    }
+    return answer;
   }
 }

@@ -13,11 +13,9 @@ import ru.muryginds.infoStorage.bot.utils.Utils;
 public class AddingNoteKeyboardMessage implements AbstractKeyboardMessage {
 
   @Override
-  public SendMessage sendKeyboardMessage(long chatId, int messageId) {
+  public SendMessage sendKeyboardMessage(long chatId, int messageId, String text) {
 
-    SendMessage message = Utils.prepareSendMessage(chatId,
-        "Would you like to store this message?");
-
+    SendMessage message = Utils.prepareSendMessage(chatId, text);
     message.setReplyToMessageId(messageId);
     message.setReplyMarkup(formKeyboard());
 

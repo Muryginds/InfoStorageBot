@@ -26,7 +26,7 @@ public class HelpCommand extends ServiceCommand {
     sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(),
         userName,
         "This bot can store information using tags. "
-            + "To start using it, send a message starting"
-            + " with $ yourTagName f.e: ($java $streamApi)");
+            + "To start using it, send a message to bot and after add tag(s)" +
+                "starting $, f.e $java $video");
   }
 }

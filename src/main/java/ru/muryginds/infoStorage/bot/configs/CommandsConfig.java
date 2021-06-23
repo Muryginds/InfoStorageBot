@@ -18,11 +18,11 @@ public class CommandsConfig {
   private BotCommand startCommand;
 
   @Autowired
-  @Qualifier("addCommand")
-  private BotCommand addCommand;
+  @Qualifier("searchCommand")
+  private BotCommand searchCommand;
 
   @Bean("myBotCommands")
   public BotCommand[] myBotCommands () {
-    return new BotCommand[]{helpCommand, startCommand, addCommand};
+    return new BotCommand[]{helpCommand, startCommand, searchCommand};
   }
 }
