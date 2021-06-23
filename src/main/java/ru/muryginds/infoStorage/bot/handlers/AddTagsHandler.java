@@ -1,13 +1,5 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -29,6 +21,10 @@ import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.utils.NoteAdditionControl;
 import ru.muryginds.infoStorage.bot.utils.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
+
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component("addTagsHandler")
 public class AddTagsHandler implements AbstractHandler {
@@ -82,8 +78,9 @@ public class AddTagsHandler implements AbstractHandler {
             message.getMessageId(), "Would you like to add this tags? " + tags));
       } else {
         answer.add(Utils.prepareSendMessage(chatId, "No tags found, please send again"));
+        tempMessagesControl.add(message);
       }
-      tempMessagesControl.add(message);
+
     } else if (botApiObject instanceof CallbackQuery) {
       CallbackQuery callbackQuery = (CallbackQuery) botApiObject;
       answer.addAll(handleCallBackQuery(user, callbackQuery));
@@ -103,9 +100,9 @@ public class AddTagsHandler implements AbstractHandler {
         for (String tag: newTags) {
           tags.add(tagRepository.getByNameAndUser(tag, user).orElse(new Tag(tag, user)));
         }
+        tagRepository.saveAll(tags);
         int noteId = noteAdditionControl.getMessageIdByChatId(callbackQuery.getMessage()
             .getChatId());
-        tagRepository.saveAll(tags);
         ChatMessage chatMessage = new ChatMessage(noteId, user);
         chatMessageRepository.save(chatMessage);
         Set<ChatMessageWithTag> chatMessageWithTags = new HashSet<>();
