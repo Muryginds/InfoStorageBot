@@ -1,5 +1,6 @@
 # InfoStorageBot
-Simple Telegram bot for storing information
+Simple Telegram bot for storing information.
+
 To start using just send a message
 
 @MDS_InfoStorage_bot
