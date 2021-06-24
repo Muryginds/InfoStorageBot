@@ -1,8 +1,8 @@
 package ru.muryginds.infoStorage.bot;
 
-import java.util.List;
-import javax.annotation.PostConstruct;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +16,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.muryginds.infoStorage.bot.handlers.UpdateHandler;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
+import javax.annotation.PostConstruct;
+import java.util.List;
+
 @Component()
 @Order(200)
 public class Bot extends TelegramLongPollingCommandBot {
+
+  private static final Logger logger = LoggerFactory.getLogger(Bot.class);
 
   @Getter
   private final String botUsername;
@@ -55,8 +60,7 @@ public class Bot extends TelegramLongPollingCommandBot {
        }
      } catch (TelegramApiException e) {
        String userName = Utils.getUserName(update.getMessage().getFrom());
-       //логируем сбой Telegram Bot API, используя userName
+       logger.error("Error while executing message for: " + userName, e);
      }
   }
-
 }

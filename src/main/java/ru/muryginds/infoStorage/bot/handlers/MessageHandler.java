@@ -1,9 +1,6 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -13,19 +10,22 @@ import ru.muryginds.infoStorage.bot.keyboards.AbstractKeyboardMessage;
 import ru.muryginds.infoStorage.bot.models.User;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component("messageHandler")
 public class MessageHandler implements AbstractHandler {
 
-  @Autowired
-  @Qualifier("addingNoteKeyboardMessage")
-  AbstractKeyboardMessage addingNoteKeyboardMessage;
+  public static final String MESSAGE_TEXT = "Would you like to store this message?";
 
+  private final AbstractKeyboardMessage addingNoteKeyboardMessage;
   private final UserRepository userRepository;
 
 
   @Autowired
-  public MessageHandler (UserRepository userRepository) {
+  public MessageHandler (UserRepository userRepository, AbstractKeyboardMessage addingNoteKeyboardMessage) {
     this.userRepository = userRepository;
+    this.addingNoteKeyboardMessage = addingNoteKeyboardMessage;
   }
 
   @Override
@@ -34,7 +34,7 @@ public class MessageHandler implements AbstractHandler {
     Message message = ((Message) botApiObject);
     long chatId = message.getChatId();
     answer.add(addingNoteKeyboardMessage.sendKeyboardMessage(chatId,
-        message.getMessageId(), "Would you like to store this message?"));
+        message.getMessageId(), MESSAGE_TEXT));
     user.setBotState(BotState.ADDING_TAGS);
     userRepository.save(user);
 

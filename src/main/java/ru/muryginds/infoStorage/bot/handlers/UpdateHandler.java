@@ -1,8 +1,5 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,12 +11,15 @@ import ru.muryginds.infoStorage.bot.models.User;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Component("updateHandler")
 @Order(150)
 public class UpdateHandler {
 
   private final UserRepository userRepository;
-
   private final List<AbstractHandler> handlers;
 
   @Autowired
@@ -27,7 +27,6 @@ public class UpdateHandler {
       UserRepository userRepository) {
     this.handlers = handlers;
     this.userRepository = userRepository;
-
   }
 
   public List<BotApiMethod<?>> handleUpdate(Update update) {

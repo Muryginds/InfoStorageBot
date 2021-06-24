@@ -1,9 +1,6 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -11,30 +8,28 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.muryginds.infoStorage.bot.enums.BotState;
 import ru.muryginds.infoStorage.bot.models.User;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
+import ru.muryginds.infoStorage.bot.utils.Constants;
 import ru.muryginds.infoStorage.bot.utils.NoteAdditionControl;
 import ru.muryginds.infoStorage.bot.utils.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component("addNoteHandler")
 public class AddNoteHandler implements AbstractHandler {
 
-  public static final String ADDING_YES = "AddingNoteYes";
-  public static final String ADDING_NO = "AddingNoteNo";
-
   private final UserRepository userRepository;
+  private final NoteAdditionControl noteAdditionControl;
+  private final TempMessagesControl tempMessagesControl;
 
   @Autowired
-  public AddNoteHandler (UserRepository userRepository) {
+  public AddNoteHandler (UserRepository userRepository,
+        NoteAdditionControl noteAdditionControl, TempMessagesControl tempMessagesControl) {
     this.userRepository = userRepository;
+    this.noteAdditionControl = noteAdditionControl;
+    this.tempMessagesControl = tempMessagesControl;
   }
-
-  @Autowired
-  @Qualifier("noteAdditionControl")
-  NoteAdditionControl noteAdditionControl;
-
-  @Autowired
-  @Qualifier("tempMessagesControl")
-  TempMessagesControl tempMessagesControl;
 
   @Override
   public List<BotApiMethod<?>> getAnswerList(User user, BotApiObject botApiObject) {
@@ -43,18 +38,17 @@ public class AddNoteHandler implements AbstractHandler {
     String data = callbackQuery.getData();
 
     switch (data) {
-      case ADDING_YES:
-        answer.add(Utils.sendAnswerCallbackQuery("Adding this message"
-            + " to memory",false, callbackQuery));
+      case Constants.KEYBOARD_ADD_NOTE_BUTTON_YES_COMMAND:
+        answer.add(Utils.sendAnswerCallbackQuery(Constants.ADDING_MESSAGE_TO_MEMORY,false, callbackQuery));
         answer.add(Utils.prepareSendMessage(callbackQuery.getMessage().getChatId(),
-            "please set tags for this note"));
+                Constants.ASK_SET_TAGS));
         tempMessagesControl.add(callbackQuery.getMessage());
         noteAdditionControl.add(callbackQuery.getMessage().getReplyToMessage());
         user.setBotState(BotState.ADDING_TAGS);
         userRepository.save(user);
         break;
-      case ADDING_NO:
-        answer.add(Utils.sendAnswerCallbackQuery("Addition is cancelled"
+      case Constants.KEYBOARD_ADD_NOTE_BUTTON_NO_COMMAND:
+        answer.add(Utils.sendAnswerCallbackQuery(Constants.ADDING_CANCELLED
             ,false, callbackQuery));
         tempMessagesControl.add(callbackQuery.getMessage());
         user.setBotState(BotState.WORKING);
@@ -71,8 +65,6 @@ public class AddNoteHandler implements AbstractHandler {
 
   @Override
   public List<String> getOperatedCallBackQuery() {
-    return List.of("AddingNote");
+    return List.of(Constants.KEYBOARD_ADD_NOTE_OPERATED_CALLBACK);
   }
-
-
 }
