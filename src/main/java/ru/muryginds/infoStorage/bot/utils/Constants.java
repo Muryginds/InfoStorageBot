@@ -21,10 +21,9 @@ final public class Constants {
     public static final String ADDING_SUCCESSFUL = "Note added!";
 
 
-    public static final String BOT_HELP = "This bot can store information using tags. "
-            + "To start using it, send a message to bot and after add tag(s)"
-            + "starting $, f.e $java $video";
-    public static final String BOT_SEARCH_NOT_FOUND = "No information found";
+    public static final String BOT_HELP = "This bot can store information using ($tags) or (list of $tags) "
+            + "To start using it, send a message to bot and answer with your $tags in request of the bot";
+    public static final String BOT_SEARCH_NOT_FOUND = "No information found with that combination of tags ";
     public static final String BOT_START = "This bot can store information!"
             + " If you want to know more, send /help";
 }

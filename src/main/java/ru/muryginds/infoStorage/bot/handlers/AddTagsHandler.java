@@ -1,5 +1,7 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
@@ -42,6 +44,7 @@ public class AddTagsHandler implements AbstractHandler {
 
   private final Map<Integer, Set<String>> userTags = new HashMap<>();
 
+  public static final Logger logger = LoggerFactory.getLogger(AddTagsHandler.class);
 
   @Autowired
   public AddTagsHandler (UserRepository userRepository,
@@ -111,6 +114,7 @@ public class AddTagsHandler implements AbstractHandler {
         tempMessagesControl.add(callbackQuery.getMessage());
         answer.addAll(
             tempMessagesControl.removeAllByChatId(callbackQuery.getMessage().getChatId()));
+        logger.info(user.getName() + " added new message (" + noteId + ") with tags: " + tags);
         break;
       case Constants.KEYBOARD_ADD_TAG_BUTTON_EDIT_COMMAND:
         tempMessagesControl.add(callbackQuery.getMessage());

@@ -15,10 +15,7 @@ import ru.muryginds.infoStorage.bot.repository.UserRepository;
 import ru.muryginds.infoStorage.bot.utils.Constants;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Component("searchCommand")
@@ -46,33 +43,46 @@ public class SearchCommand extends ServiceCommand {
     for (String string : strings) {
       if (string.startsWith("$")) {
         tagNames.add(string);
-      } else {
-        break;
       }
     }
 
+    boolean messagesFound = false;
+
+    var curUser =
+            userRepository.getByChatId(String.valueOf(chat.getId()))
+                    .orElseGet(() -> userRepository.save(
+                            new ru.muryginds.infoStorage.bot.models.User(chat.getId(), user)));
+
     List<SendMessage> messages = new ArrayList<>();
     if (tagNames.size() > 0) {
-      var curUser =
-          userRepository.getByChatId(String.valueOf(chat.getId()))
-              .orElseGet(() -> userRepository.save(
-                  new ru.muryginds.infoStorage.bot.models.User(chat.getId(), user)));
+
       Set<Tag> tags = new HashSet<>();
       for (String tag: tagNames) {
         tagRepository.getByNameAndUser(tag, curUser).ifPresent(tags::add);
       }
-      List<Integer> messagesId =
+
+      if (tags.size() == tagNames.size()) {
+        List<Integer> messagesId =
           chatMessageWithTagRepository.getListMessageIdByTagIn(tags, tags.size());
-      for(int number: messagesId) {
-        SendMessage message = new SendMessage();
-        message.setReplyToMessageId(number);
-        message.setChatId(curUser.getChatId());
-        message.setText(""+'\u2b08');
-        messages.add(message);
+        if (messagesId.size() > 0) {
+          for(int number: messagesId) {
+            SendMessage message = new SendMessage();
+            message.setReplyToMessageId(number);
+            message.setChatId(curUser.getChatId());
+            message.setText(""+'\u2b08');
+            messages.add(message);
+          }
+          messagesFound = true;
+          logger.info(curUser.getName() + " (" + curUser.getChatId() + ") made successful search with tags: "
+                  + tagNames + " and received " + messagesId.size() + " message(s)");
+        }
       }
     }
-    else {
-      messages.add(Utils.prepareSendMessage(chat.getId(), Constants.BOT_SEARCH_NOT_FOUND));
+
+    if (!messagesFound) {
+      messages.add(Utils.prepareSendMessage(chat.getId(), Constants.BOT_SEARCH_NOT_FOUND + tagNames));
+      logger.warn(curUser.getName() + " (" + curUser.getChatId() + ") made bad search with found tags: "
+              + tagNames + ", requested tags: " + Arrays.toString(strings));
     }
 
     try {
@@ -80,7 +90,7 @@ public class SearchCommand extends ServiceCommand {
         absSender.execute(mes);
       }
     } catch (TelegramApiException e) {
-      //log error;
+      logger.error("Command: search " + "User: " + curUser.getName(), e);
     }
   }
 }

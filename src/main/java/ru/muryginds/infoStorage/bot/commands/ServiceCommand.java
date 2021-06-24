@@ -1,5 +1,7 @@
 package ru.muryginds.infoStorage.bot.commands;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -8,17 +10,19 @@ import ru.muryginds.infoStorage.bot.utils.Utils;
 
 abstract class ServiceCommand extends BotCommand {
 
+  static final Logger logger = LoggerFactory.getLogger(ServiceCommand.class);
+
   ServiceCommand(String identifier, String description) {
     super(identifier, description);
   }
 
   void sendAnswer(AbsSender absSender, Long chatId, String commandName,
-      String userName, String text) {
+                  String userName, String text) {
     SendMessage message = Utils.prepareSendMessage(chatId, text);
     try {
       absSender.execute(message);
     } catch (TelegramApiException e) {
-      //логируем сбой Telegram Bot API, используя commandName и userName
+      logger.error("Command: " + commandName + " User: " + userName, e);
     }
   }
 }
