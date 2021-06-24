@@ -12,8 +12,8 @@ final public class Constants {
     public static final String KEYBOARD_ADD_TAG_BUTTON_ADD_COMMAND = "AddingTagsAddNoteToDb";
     public static final String KEYBOARD_ADD_TAG_BUTTON_EDIT_COMMAND = "AddingTagsEdit";
 
-    public static final String ASK_GET_TAGS = "Would you like to add this tags? ";
-    public static final String ASK_SET_TAGS = "Please set tags for this note";
+    public static final String ASK_GET_TAGS = "Would you like to add these tags? ";
+    public static final String ASK_SET_TAGS = "Please set tags for this note, f.e: " + '\u0024' + "java";
     public static final String TAGS_NOT_FOUND = "No tags found, please send again";
     public static final String ADDING_TAGS_TO_MEMORY = "Adding tags to memory";
     public static final String ADDING_MESSAGE_TO_MEMORY = "Adding this message to memory";
