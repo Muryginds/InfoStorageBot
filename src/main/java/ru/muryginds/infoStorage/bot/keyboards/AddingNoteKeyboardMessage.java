@@ -1,13 +1,15 @@
 package ru.muryginds.infoStorage.bot.keyboards;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.muryginds.infoStorage.bot.utils.Constants;
 import ru.muryginds.infoStorage.bot.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component("addingNoteKeyboardMessage")
 public class AddingNoteKeyboardMessage implements AbstractKeyboardMessage {
@@ -28,8 +30,10 @@ public class AddingNoteKeyboardMessage implements AbstractKeyboardMessage {
     InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
     List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
     List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-    keyboardButtonsRow.add(createInlineKeyboardButton("Yes", "AddingNoteYes"));
-    keyboardButtonsRow.add(createInlineKeyboardButton("No", "AddingNoteNo"));
+    keyboardButtonsRow.add(createInlineKeyboardButton("Yes",
+            Constants.KEYBOARD_ADD_NOTE_BUTTON_YES_COMMAND));
+    keyboardButtonsRow.add(createInlineKeyboardButton("No",
+            Constants.KEYBOARD_ADD_NOTE_BUTTON_NO_COMMAND));
     rowList.add(keyboardButtonsRow);
     inlineKeyboardMarkup.setKeyboard(rowList);
 

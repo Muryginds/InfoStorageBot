@@ -1,7 +1,6 @@
 package ru.muryginds.infoStorage.bot.handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -18,6 +17,7 @@ import ru.muryginds.infoStorage.bot.repository.ChatMessageRepository;
 import ru.muryginds.infoStorage.bot.repository.ChatMessageWithTagRepository;
 import ru.muryginds.infoStorage.bot.repository.TagRepository;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
+import ru.muryginds.infoStorage.bot.utils.Constants;
 import ru.muryginds.infoStorage.bot.utils.NoteAdditionControl;
 import ru.muryginds.infoStorage.bot.utils.TempMessagesControl;
 import ru.muryginds.infoStorage.bot.utils.Utils;
@@ -29,23 +29,12 @@ import java.util.stream.Collectors;
 @Component("addTagsHandler")
 public class AddTagsHandler implements AbstractHandler {
 
-  public static final String ADDING_TAGS_ADD_NOTE_TO_DB = "AddingTagsAddNoteToDb";
-  public static final String ADDING_TAGS_EDIT = "AddingTagsEdit";
-  public static final String ADDING_TAGS_CANCEL = "AddingTagsCancel";
   public static final String TAG_PATTERN = "(\\$[\\w]+)+";
+  public static final String ASK_EDIT = "Edit the tags!";
 
-  @Autowired
-  @Qualifier("addingTagsKeyboardMessage")
-  private AbstractKeyboardMessage addingTagsKeyboardMessage;
-
-  @Autowired
-  @Qualifier("tempMessagesControl")
-  TempMessagesControl tempMessagesControl;
-
-  @Autowired
-  @Qualifier("noteAdditionControl")
-  NoteAdditionControl noteAdditionControl;
-
+  private final AbstractKeyboardMessage addingTagsKeyboardMessage;
+  private final TempMessagesControl tempMessagesControl;
+  private final NoteAdditionControl noteAdditionControl;
   private final UserRepository userRepository;
   private final TagRepository tagRepository;
   private final ChatMessageRepository chatMessageRepository;
@@ -57,11 +46,16 @@ public class AddTagsHandler implements AbstractHandler {
   @Autowired
   public AddTagsHandler (UserRepository userRepository,
       TagRepository tagRepository, ChatMessageRepository chatMessageRepository,
-      ChatMessageWithTagRepository chatMessageWithTagRepository) {
+      ChatMessageWithTagRepository chatMessageWithTagRepository,
+      AbstractKeyboardMessage addingTagsKeyboardMessage, TempMessagesControl tempMessagesControl,
+      NoteAdditionControl noteAdditionControl) {
     this.userRepository = userRepository;
     this.tagRepository = tagRepository;
     this.chatMessageRepository = chatMessageRepository;
     this.chatMessageWithTagRepository = chatMessageWithTagRepository;
+    this.addingTagsKeyboardMessage = addingTagsKeyboardMessage;
+    this.tempMessagesControl = tempMessagesControl;
+    this.noteAdditionControl = noteAdditionControl;
   }
 
   @Override
@@ -75,9 +69,9 @@ public class AddTagsHandler implements AbstractHandler {
       Set<String> tags = userTags.get(user.getId());
       if (tags.size() > 0) {
         answer.add(addingTagsKeyboardMessage.sendKeyboardMessage(chatId,
-            message.getMessageId(), "Would you like to add this tags? " + tags));
+            message.getMessageId(), Constants.ASK_GET_TAGS + tags));
       } else {
-        answer.add(Utils.prepareSendMessage(chatId, "No tags found, please send again"));
+        answer.add(Utils.prepareSendMessage(chatId, Constants.TAGS_NOT_FOUND));
         tempMessagesControl.add(message);
       }
 
@@ -92,9 +86,8 @@ public class AddTagsHandler implements AbstractHandler {
     List<BotApiMethod<?>> answer = new ArrayList<>();
     String data = callbackQuery.getData();
     switch (data) {
-      case ADDING_TAGS_ADD_NOTE_TO_DB:
-        answer.add(Utils.sendAnswerCallbackQuery("Adding tags now"
-            + " to memory",false, callbackQuery));
+      case Constants.KEYBOARD_ADD_TAG_BUTTON_ADD_COMMAND:
+        answer.add(Utils.sendAnswerCallbackQuery(Constants.ADDING_TAGS_TO_MEMORY,false, callbackQuery));
         Set<String> newTags = userTags.get(user.getId());
         Set<Tag> tags = new HashSet<>();
         for (String tag: newTags) {
@@ -113,22 +106,20 @@ public class AddTagsHandler implements AbstractHandler {
         user.setBotState(BotState.WORKING);
         userRepository.save(user);
         answer.add(Utils.prepareSendMessage(callbackQuery.getMessage().getChatId(),
-            "note added!"));
+            Constants.ADDING_SUCCESSFUL));
         noteAdditionControl.remove(callbackQuery.getMessage().getChatId());
         tempMessagesControl.add(callbackQuery.getMessage());
         answer.addAll(
             tempMessagesControl.removeAllByChatId(callbackQuery.getMessage().getChatId()));
         break;
-      case ADDING_TAGS_EDIT:
+      case Constants.KEYBOARD_ADD_TAG_BUTTON_EDIT_COMMAND:
         tempMessagesControl.add(callbackQuery.getMessage());
-        answer.add(Utils.sendAnswerCallbackQuery("Edit the tags!"
-            ,false, callbackQuery));
+        answer.add(Utils.sendAnswerCallbackQuery(ASK_EDIT,false, callbackQuery));
         answer.add(Utils.prepareSendMessage(callbackQuery.getMessage().getChatId(),
-            "please set tags for this note again"));
+            Constants.ASK_SET_TAGS));
         break;
-      case ADDING_TAGS_CANCEL:
-        answer.add(Utils.sendAnswerCallbackQuery("Adding tags was cancelled"
-            ,false, callbackQuery));
+      case Constants.KEYBOARD_ADD_TAG_BUTTON_CANCEL_COMMAND:
+        answer.add(Utils.sendAnswerCallbackQuery(Constants.ADDING_CANCELLED,false, callbackQuery));
         userTags.remove(user.getId());
         user.setBotState(BotState.WORKING);
         userRepository.save(user);
@@ -154,6 +145,6 @@ public class AddTagsHandler implements AbstractHandler {
 
   @Override
   public List<String> getOperatedCallBackQuery() {
-    return List.of("AddingTags");
+    return List.of(Constants.KEYBOARD_ADD_TAG_OPERATED_CALLBACK);
   }
 }

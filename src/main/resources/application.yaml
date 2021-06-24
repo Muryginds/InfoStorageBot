@@ -1,3 +1,18 @@
 bot:
   name: ${MYBOTNAME}
   token: ${MYBOTTOKEN}
+spring:
+  datasource:
+    url: jdbc:${CLEARDB_DATABASE_URL:mysql://localhost:3308/mybot_db}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+server:
+    port: ${PORT:8080}
+java:
+  runtime:
+    version: 11

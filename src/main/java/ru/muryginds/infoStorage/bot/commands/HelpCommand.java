@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import ru.muryginds.infoStorage.bot.utils.Constants;
 import ru.muryginds.infoStorage.bot.utils.Utils;
 
 
@@ -24,9 +25,6 @@ public class HelpCommand extends ServiceCommand {
     String userName = Utils.getUserName(user);
 
     sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(),
-        userName,
-        "This bot can store information using tags. "
-            + "To start using it, send a message to bot and after add tag(s)" +
-                "starting $, f.e $java $video");
+        userName, Constants.BOT_HELP);
   }
 }

@@ -28,14 +28,6 @@ public class User extends AbstractEntity {
   @Column(columnDefinition = "enum", name = "bot_state")
   private BotState botState;
 
-/*
-  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private List<ChatMessage> chatMessages;
-*/
-
-/*  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private List<Tag> tagList;*/
-
   public User(Message message) {
     this.chatId = String.valueOf(message.getChatId());
     this.name = Utils.getUserName(message.getFrom());

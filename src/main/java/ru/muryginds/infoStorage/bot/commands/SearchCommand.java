@@ -12,6 +12,8 @@ import ru.muryginds.infoStorage.bot.models.Tag;
 import ru.muryginds.infoStorage.bot.repository.ChatMessageWithTagRepository;
 import ru.muryginds.infoStorage.bot.repository.TagRepository;
 import ru.muryginds.infoStorage.bot.repository.UserRepository;
+import ru.muryginds.infoStorage.bot.utils.Constants;
+import ru.muryginds.infoStorage.bot.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,6 +51,7 @@ public class SearchCommand extends ServiceCommand {
       }
     }
 
+    List<SendMessage> messages = new ArrayList<>();
     if (tagNames.size() > 0) {
       var curUser =
           userRepository.getByChatId(String.valueOf(chat.getId()))
@@ -65,12 +68,19 @@ public class SearchCommand extends ServiceCommand {
         message.setReplyToMessageId(number);
         message.setChatId(curUser.getChatId());
         message.setText(""+'\u2b08');
-        try {
-          absSender.execute(message);
-        } catch (TelegramApiException e) {
-          e.printStackTrace();
-        }
+        messages.add(message);
       }
+    }
+    else {
+      messages.add(Utils.prepareSendMessage(chat.getId(), Constants.BOT_SEARCH_NOT_FOUND));
+    }
+
+    try {
+      for (SendMessage mes : messages) {
+        absSender.execute(mes);
+      }
+    } catch (TelegramApiException e) {
+      //log error;
     }
   }
 }
