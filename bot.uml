@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>E:/Java/projects/InfoStorage/src/main/java/ru/muryginds/infoStorage/bot</OriginalElement>
+  <nodes>
+    <node x="-221.0" y="228.0">ru.muryginds.infoStorage.bot.keyboards.AbstractKeyboardMessage</node>
+    <node x="-332.0" y="627.0">ru.muryginds.infoStorage.bot.utils.Constants</node>
+    <node x="399.0" y="439.5">ru.muryginds.infoStorage.bot.models.Tag</node>
+    <node x="495.0" y="439.5">ru.muryginds.infoStorage.bot.models.User</node>
+    <node x="367.0" y="358.5">ru.muryginds.infoStorage.bot.models.AbstractEntity</node>
+    <node x="-10.5" y="134.5">ru.muryginds.infoStorage.bot.handlers.MessageHandler</node>
+    <node x="564.5" y="548.5">ru.muryginds.infoStorage.bot.repository.ChatMessageWithTagRepository</node>
+    <node x="-184.0" y="3.0">ru.muryginds.infoStorage.bot.handlers.UpdateHandler</node>
+    <node x="460.5" y="502.5">ru.muryginds.infoStorage.bot.repository.UserRepository</node>
+    <node x="-100.5" y="309.0">ru.muryginds.infoStorage.bot.keyboards.AddingNoteKeyboardMessage</node>
+    <node x="129.0" y="-74.0">ru.muryginds.infoStorage.bot.Bot</node>
+    <node x="569.5" y="84.0">ru.muryginds.infoStorage.bot.commands.HelpCommand</node>
+    <node x="387.0" y="3.0">ru.muryginds.infoStorage.bot.commands.ServiceCommand</node>
+    <node x="242.0" y="439.5">ru.muryginds.infoStorage.bot.models.ChatMessage</node>
+    <node x="627.5" y="439.5">ru.muryginds.infoStorage.bot.models.ChatMessageWithTag</node>
+    <node x="-332.0" y="579.0">ru.muryginds.infoStorage.bot.utils.Utils</node>
+    <node x="207.5" y="502.5">ru.muryginds.infoStorage.bot.repository.ChatMessageRepository</node>
+    <node x="-366.5" y="309.0">ru.muryginds.infoStorage.bot.keyboards.AddingTagsKeyboardMessage</node>
+    <node x="-187.0" y="579.0">ru.muryginds.infoStorage.bot.utils.NoteAdditionControl</node>
+    <node x="388.5" y="84.0">ru.muryginds.infoStorage.bot.commands.SearchCommand</node>
+    <node x="-189.5" y="134.5">ru.muryginds.infoStorage.bot.handlers.AddTagsHandler</node>
+    <node x="-187.5" y="53.5">ru.muryginds.infoStorage.bot.handlers.AbstractHandler</node>
+    <node x="-187.0" y="627.0">ru.muryginds.infoStorage.bot.utils.TempMessagesControl</node>
+    <node x="620.0" y="3.0">ru.muryginds.infoStorage.bot.configs.CommandsConfig</node>
+    <node x="-369.5" y="134.5">ru.muryginds.infoStorage.bot.handlers.AddNoteHandler</node>
+    <node x="219.5" y="84.0">ru.muryginds.infoStorage.bot.commands.StartCommand</node>
+    <node x="365.0" y="548.5">ru.muryginds.infoStorage.bot.repository.TagRepository</node>
+    <node x="-332.0" y="710.0">ru.muryginds.infoStorage.bot.enums.BotState</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ru.muryginds.infoStorage.bot.models.Tag" target="ru.muryginds.infoStorage.bot.models.AbstractEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.handlers.MessageHandler" target="ru.muryginds.infoStorage.bot.handlers.AbstractHandler" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="68.5" y="109.5" />
+      <point x="-110.0" y="109.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.commands.HelpCommand" target="ru.muryginds.infoStorage.bot.commands.ServiceCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="644.0" y="59.0" />
+      <point x="469.0" y="59.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.commands.StartCommand" target="ru.muryginds.infoStorage.bot.commands.ServiceCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="294.0" y="59.0" />
+      <point x="469.0" y="59.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.models.ChatMessage" target="ru.muryginds.infoStorage.bot.models.AbstractEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="310.5" y="414.5" />
+      <point x="437.0" y="414.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.handlers.AddNoteHandler" target="ru.muryginds.infoStorage.bot.handlers.AbstractHandler" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="-289.5" y="109.5" />
+      <point x="-110.0" y="109.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.keyboards.AddingNoteKeyboardMessage" target="ru.muryginds.infoStorage.bot.keyboards.AbstractKeyboardMessage" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="23.5" y="284.0" />
+      <point x="-110.0" y="284.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.commands.SearchCommand" target="ru.muryginds.infoStorage.bot.commands.ServiceCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.models.User" target="ru.muryginds.infoStorage.bot.models.AbstractEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="535.0" y="414.5" />
+      <point x="437.0" y="414.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.keyboards.AddingTagsKeyboardMessage" target="ru.muryginds.infoStorage.bot.keyboards.AbstractKeyboardMessage" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="-243.5" y="284.0" />
+      <point x="-110.0" y="284.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="ru.muryginds.infoStorage.bot.handlers.AddTagsHandler" target="ru.muryginds.infoStorage.bot.handlers.AbstractHandler" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="393.5" y="405.5" />
+  <SelectedNodes>
+    <node>ru.muryginds.infoStorage.bot.enums.BotState</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

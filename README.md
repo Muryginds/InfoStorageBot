@@ -14,6 +14,8 @@ To start using just send a message
 <li>https://javarush.ru/groups/posts/2959-sozdaem-telegram-bota-s-ispoljhzovaniem-spring-boot</li>
 <li>https://www.baeldung.com/spring-data-jpa-query</li>
 <li>https://www.baeldung.com/spring-boot-logging</li>
+<li>https://www.baeldung.com/spring-boot-testing</li>
+<li>https://reflectoring.io/spring-boot-data-jpa-test/</li>
 <li>https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin</li>
 
 ### Set up:
