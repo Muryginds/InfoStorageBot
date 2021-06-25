@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
   private String name;
 
   @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "enum", name = "bot_state")
+  @Column(name = "bot_state")
   private BotState botState;
 
   public User(Message message) {
