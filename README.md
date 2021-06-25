@@ -5,7 +5,13 @@ To start using just send a message
 
 @MDS_InfoStorage_bot
 
-![2a1610a1-6430-413c-a432-bb6b7243cfe5](https://user-images.githubusercontent.com/20901392/123169264-bbb4f380-d481-11eb-97a8-b11b8571079e.png)
+![image](https://user-images.githubusercontent.com/20901392/123487431-8f7eab80-d616-11eb-932f-c2e8e78b94e8.png)
+
+### Technological stack:
+<li>Java 11</li>
+<li>Spring boot, data jpa</li>
+<li>Maven</li>
+<li>Lombok, Junit, Logback</li>
 
 ### Articles and resources:
 
