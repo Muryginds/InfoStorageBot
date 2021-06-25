@@ -73,16 +73,22 @@ public class SearchCommand extends ServiceCommand {
             messages.add(message);
           }
           messagesFound = true;
-          logger.info(curUser.getName() + " (" + curUser.getChatId() + ") made successful search with tags: "
-                  + tagNames + " and received " + messagesId.size() + " message(s)");
+          StringBuilder info = new StringBuilder();
+          info.append(curUser.getName()).append(" (").append(curUser.getChatId())
+                .append(") made successful search with tags: ").append(tagNames)
+                .append(" and received ").append(messagesId.size()).append(" message(s)");
+          logger.info(info.toString());
         }
       }
     }
 
     if (!messagesFound) {
       messages.add(Utils.prepareSendMessage(chat.getId(), Constants.BOT_SEARCH_NOT_FOUND + tagNames));
-      logger.warn(curUser.getName() + " (" + curUser.getChatId() + ") made bad search with found tags: "
-              + tagNames + ", requested tags: " + Arrays.toString(strings));
+      StringBuilder info = new StringBuilder();
+      info.append(curUser.getName()).append(" (").append(curUser.getChatId())
+            .append(") made bad search with found tags: ").append(tagNames)
+            .append(", requested tags: ").append(Arrays.toString(strings));
+      logger.warn(info.toString());
     }
 
     try {
@@ -90,7 +96,9 @@ public class SearchCommand extends ServiceCommand {
         absSender.execute(mes);
       }
     } catch (TelegramApiException e) {
-      logger.error("Command: search " + "User: " + curUser.getName(), e);
+      StringBuilder info = new StringBuilder();
+      info.append("Command: ").append(getCommandIdentifier()).append(" User: ").append(curUser.getName());
+      logger.error(info.toString(), e);
     }
   }
 }

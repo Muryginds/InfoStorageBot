@@ -22,7 +22,9 @@ abstract class ServiceCommand extends BotCommand {
     try {
       absSender.execute(message);
     } catch (TelegramApiException e) {
-      logger.error("Command: " + commandName + " User: " + userName, e);
+      StringBuilder info = new StringBuilder();
+      info.append("Command: ").append(commandName).append(" User: ").append(userName);
+      logger.error(info.toString(), e);
     }
   }
 }
