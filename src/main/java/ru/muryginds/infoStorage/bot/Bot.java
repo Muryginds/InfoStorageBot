@@ -30,19 +30,19 @@ public class Bot extends TelegramLongPollingCommandBot {
   @Getter
   private final String botToken;
 
-  @Autowired
-  @Qualifier("updateHandler")
-  private UpdateHandler updateHandler;
+  private final UpdateHandler updateHandler;
 
   @Autowired
   @Qualifier("myBotCommands")
   private BotCommand[] myBotCommands;
 
   public Bot (@Value("${bot.name}") String userName,
-      @Value("${bot.token}") String botToken) {
+      @Value("${bot.token}") String botToken,
+              UpdateHandler updateHandler) {
     super();
     this.botUsername = userName;
     this.botToken = botToken;
+    this.updateHandler = updateHandler;
   }
 
   @PostConstruct

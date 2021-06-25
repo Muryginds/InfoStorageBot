@@ -38,7 +38,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <logger name="com.muryginds.infoStorage" level="trace">
+    <logger name="com.muryginds.infoStorage" level="trace" additivity="true">
         <appender-ref ref="LogFile" />
         <appender-ref ref="Console" />
     </logger>
